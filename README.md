@@ -95,7 +95,6 @@ echo $CHAINCODE_ID
 Debe dar como salida el ID de chaincode
 
 ## Activar el chaincode
-
 Con el script `cc_approve_commit.sh` se aprueba y confirma el chaincode (solo es necesaria una única aprobación según la política de validación definida):
 Puede usar el script `cc_approve_commit.sh` o ejecutar los comando de manera manual, como desee.
 
