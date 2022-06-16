@@ -79,7 +79,7 @@ peer lifecycle chaincode package mycc.tar.gz --path ./chaincodes/chaincode-go --
 peer lifecycle chaincode install mycc.tar.gz
 ```
 
-La instalación del chaincode puede demorar un minuto.
+La instalación del chaincode puede demorar un minuto
 
 Copie el ID del paquete de chaincode devuelto en la variable de entorno para usar luego (el ID puede ser diferente):
 
