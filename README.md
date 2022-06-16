@@ -65,10 +65,14 @@ cd chaincodes/chaincode-go
 go mod vendor
 ```
 
-Para implementar e invocar el chaincode, utilice el terminal de administración peer1 que creó en los pasos anteriores:
+Para instalar e invocar el chaincode, puede utilizar el terminal de administración que creó en los pasos anteriores:
 
 ```
-source peeradmin.sh
+// si va a instalar en la Org1
+source peer1admin.sh
+
+// si va a instalar en la Org2
+source peer2admin.sh
 ```
 
 ## Empaquete e instale el chaincode en el peer1:
