@@ -65,17 +65,14 @@ cd chaincodes/chaincode-go
 go mod vendor
 ```
 
+## Empaquete e instale el chaincode
+
+### En la Org 1
 Para instalar e invocar el chaincode, puede utilizar el terminal de administración que creó en los pasos anteriores:
 
 ```
-// si va a instalar en la Org1
 source peer1admin.sh
-
-// si va a instalar en la Org2
-source peer2admin.sh
 ```
-
-## Empaquete e instale el chaincode en el peer1:
 
 ```
 peer lifecycle chaincode package mycc.tar.gz --path ./chaincodes/chaincode-go --lang golang --label mycc
@@ -105,7 +102,15 @@ echo $CHAINCODE_ID
 ```
 Debe dar como salida el ID de chaincode
 
-## Activar el chaincode
+
+### En la Org 2
+Si tienes una 2da organizacion activa debes instalar el chaincode en el peer2.
+```
+source peer2admin.sh
+peer lifecycle chaincode install mycc.tar.gz
+```
+
+## Activar el chaincode (solo es necesario hacerlo una vez)
 La aprobacion puede realizarse de manera MANUAL o usando el script `cc_approve_commit.sh`.
 Con el script `cc_approve_commit.sh` se aprueba y confirma el chaincode (solo es necesaria una única aprobación según la política de validación definida):
 
