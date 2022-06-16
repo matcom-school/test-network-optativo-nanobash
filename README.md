@@ -91,6 +91,13 @@ Copie el ID del paquete de chaincode devuelto en la variable de entorno para usa
 export CHAINCODE_ID=mycc:faaa38f2fc913c8344986a7d1617d21f6c97bc8d85ee0a489c90020cd57af4a5
 ```
 
+Para conocer el CHAINCODE_ID puede ejecutar el comando siguiente:
+
+```
+// con este comando comprobamos que la instalacion haya sido satisfactoria
+peer lifecycle chaincode queryinstalled
+```
+
 Antes de proceder compruebe que la variable de entorno:
 
 ```
@@ -99,15 +106,15 @@ echo $CHAINCODE_ID
 Debe dar como salida el ID de chaincode
 
 ## Activar el chaincode
+La aprobacion puede realizarse de manera MANUAL o usando el script `cc_approve_commit.sh`.
 Con el script `cc_approve_commit.sh` se aprueba y confirma el chaincode (solo es necesaria una única aprobación según la política de validación definida):
-Puede usar el script `cc_approve_commit.sh` o ejecutar los comando de manera manual, como desee.
 
 Usando el script:
 ```
 ./cc_approve_commit.sh
 ```
 
-La forma manual:
+La forma MANUAL:
 ```
 peer lifecycle chaincode approveformyorg -o 127.0.0.1:7050 --channelID mychannel --name mycc --version 1 --package-id $CHAINCODE_ID --sequence 1 --tls --cafile "${PWD}"/crypto-config/organizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
 

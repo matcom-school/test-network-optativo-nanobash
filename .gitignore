@@ -32,3 +32,5 @@ chaincodes/cc-gettingstarted-go/vendor/
 # Eclipse
 .classpath
 .settings
+
+*.exe
