@@ -1,10 +1,12 @@
 #!/usr/bin/env sh
 set -eu
 
-if [ "$(uname)" = "Linux" ] ; then
-  CCADDR="127.0.0.1"
+if [ -n "$WSL_DISTRO_NAME" ] ; then
+    CCADDR="host.docker.internal"
+elif [ "$(uname)" = "Linux" ] ; then
+	CCADDR="127.0.0.1"
 else
-  CCADDR="host.docker.internal"
+    CCADDR="127.0.0.1"
 fi
 
 # look for binaries in local dev environment /build/bin directory and then in local samples /bin directory
