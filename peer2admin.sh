@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 # look for binaries in local dev environment /build/bin directory and then in local samples /bin directory
-export PATH="${PWD}"/../../fabric/build/bin:"${PWD}"/../bin:"$PATH"
+export PATH="${PWD}"/../bin:"$PATH"
 export FABRIC_CFG_PATH="${PWD}"/../config
 
 export FABRIC_LOGGING_SPEC=INFO
