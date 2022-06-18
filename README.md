@@ -70,11 +70,9 @@ go mod vendor
 ### En la Org 1
 Para instalar e invocar el chaincode, puede utilizar el terminal de administración que creó en los pasos anteriores:
 
-```
+```bash
 source peer1admin.sh
-```
 
-```
 peer lifecycle chaincode package mycc.tar.gz --path ./chaincodes/chaincode-go --lang golang --label mycc
 
 peer lifecycle chaincode install mycc.tar.gz
@@ -82,47 +80,64 @@ peer lifecycle chaincode install mycc.tar.gz
 
 La instalación del chaincode puede demorar un minuto
 
+Comprobamos la instalación del chaincode y obtener el ID del chaincode `CHAINCODE_ID` generado, ejecutando el comando:
+
+```bash
+peer lifecycle chaincode queryinstalled
+```
+
 Copie el ID del paquete de chaincode devuelto en la variable de entorno para usar luego (el ID puede ser diferente):
+
+```bash
+export CHAINCODE_ID=mycc:faaa38f2fc913c8344986a7d1617d21f6c97bc8d85ee0a489c90020cd57af4a5
+```
+
+Antes de proceder compruebe la variable de entorno:
+
+```bash
+echo $CHAINCODE_ID
+```
+Debe dar como salida el ID de chaincode
+
+### En la Org 2
+Si tienes una 2.ª organización activa debe instalar el chaincode previamente empaquetado en el peer2.
+
+```bash
+source peer2admin.sh
+peer lifecycle chaincode install mycc.tar.gz
+```
+
+Luego consulte el chaincode instalado para validar la instalación en la Org2
+```
+peer lifecycle chaincode queryinstalled
+```
+
+Copie el ID del paquete de chaincode devuelto en la variable de entorno para usar luego (solo si es diferente o si esta operando en otra terminal):
 
 ```
 export CHAINCODE_ID=mycc:faaa38f2fc913c8344986a7d1617d21f6c97bc8d85ee0a489c90020cd57af4a5
 ```
 
-Para conocer el CHAINCODE_ID puede ejecutar el comando siguiente:
+## Aprobar el chaincode en la Org1
 
-```
-// con este comando comprobamos que la instalacion haya sido satisfactoria
-peer lifecycle chaincode queryinstalled
-```
+```bash
+source peer1admin.sh
 
-Antes de proceder compruebe que la variable de entorno:
-
-```
-echo $CHAINCODE_ID
-```
-Debe dar como salida el ID de chaincode
-
-
-### En la Org 2
-Si tienes una 2da organizacion activa debes instalar el chaincode en el peer2.
-```
-source peer2admin.sh
-peer lifecycle chaincode install mycc.tar.gz
-```
-
-## Activar el chaincode (solo es necesario hacerlo una vez)
-La aprobacion puede realizarse de manera MANUAL o usando el script `cc_approve_commit.sh`.
-Con el script `cc_approve_commit.sh` se aprueba y confirma el chaincode (solo es necesaria una única aprobación según la política de validación definida):
-
-Usando el script:
-```
-./cc_approve_commit.sh
-```
-
-La forma MANUAL:
-```
 peer lifecycle chaincode approveformyorg -o 127.0.0.1:7050 --channelID mychannel --name mycc --version 1 --package-id $CHAINCODE_ID --sequence 1 --tls --cafile "${PWD}"/crypto-config/organizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
+```
 
+## Aprobar el chaincode en la Org2
+👀 Este paso es solo si tiene la Org2 activa, de lo contrario debe omitirlo e ir al siguiente
+
+```bash
+source peer2admin.sh
+
+peer lifecycle chaincode approveformyorg -o 127.0.0.1:7050 --channelID mychannel --name mycc --version 1 --package-id $CHAINCODE_ID --sequence 1 --tls --cafile "${PWD}"/crypto-config/organizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
+```
+
+## Activar el chaincode (solo es necesario hacerlo una unica vez y en cuando haya sido aprobado por TODAS las Organizaciones en EJECUCION)
+
+```bash
 peer lifecycle chaincode commit -o 127.0.0.1:7050 --channelID mychannel --name mycc --version 1 --sequence 1 --tls --cafile "${PWD}"/crypto-config/organizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
 ```
 
@@ -130,7 +145,7 @@ peer lifecycle chaincode commit -o 127.0.0.1:7050 --channelID mychannel --name m
 
 Invoque el chaincode para crear un activo (en esta red solo se requiere que una única Org valide la Tx según la política de respaldo configurada).
 Luego consulte el activo, actualícelo y vuelva a consultar para ver los cambios de activos resultantes en el ledger. Tenga en cuenta que debe esperar un poco para que se completen las transacciones de invocación.
-```
+```bash
 # Inicializar el ledger con datos de prueba
 peer chaincode invoke -o 127.0.0.1:7050 -C mychannel -n mycc -c '{"Args":["InitLedger"]}' -tls --cafile "${PWD}"/crypto-config/organizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
 
