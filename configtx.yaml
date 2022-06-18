@@ -107,7 +107,7 @@ Organizations:
                 Rule: "OR('Org2MSP.admin')"
             Endorsement:
                 Type: Signature
-                Rule: "OR('Org1MSP.member')"
+                Rule: "OR('Org2MSP.member')"
 
         AnchorPeers:
             # AnchorPeers defines the location of peers which can be used
@@ -200,11 +200,18 @@ Application: &ApplicationDefaults
             Type: ImplicitMeta
             Rule: "MAJORITY Admins"
         LifecycleEndorsement:
-                Type: Signature
-                Rule: "OR('Org1MSP.peer','Org2MSP.peer')"
+            Type: ImplicitMeta
+            Rule: "ANY Endorsement"
+            # Type: Signature
+            # Rule: "OR('Org1MSP.peer','Org2MSP.peer')"
         Endorsement:
-                Type: Signature
-                Rule: "OR('Org1MSP.peer','Org2MSP.peer')"
+            Type: ImplicitMeta
+            Rule: "ANY Endorsement"
+            # Type: Signature
+            # Rule: "OR('Org1MSP.peer','Org2MSP.peer')"
+        BlockValidation:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
 
     Capabilities:
         <<: *ApplicationCapabilities
