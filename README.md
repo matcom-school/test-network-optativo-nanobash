@@ -165,3 +165,6 @@ peer chaincode query -C mychannel -n mycc -c '{"Args":["ReadAsset","1"]}'
 ¡Felicitaciones, ha implementado una red Fabric mínima! Inspeccione los scripts si desea ver el conjunto mínimo de comandos necesarios para implementar la red.
 
 Utilice `Ctrl-C` en las ventanas del terminal para eliminar los procesos de los nodos. Puede ejecutar los scripts nuevamente para reiniciar los componentes con sus datos existentes, o ejecutar `./generate_artifacts` nuevamente para limpiar los artefactos y datos existentes si desea reiniciar con un entorno limpio.
+
+
+Si desea probar las Tx usando el SDK de go, ver el README.md en `application-go` 
