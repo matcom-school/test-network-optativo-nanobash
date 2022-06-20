@@ -147,7 +147,7 @@ Invoque el chaincode para crear un activo (en esta red solo se requiere que una 
 Luego consulte el activo, actualícelo y vuelva a consultar para ver los cambios de activos resultantes en el ledger. Tenga en cuenta que debe esperar un poco para que se completen las transacciones de invocación.
 ```bash
 # Inicializar el ledger con datos de prueba
-peer chaincode invoke -o 127.0.0.1:7050 -C mychannel -n mycc -c '{"Args":["InitLedger"]}' -tls --cafile "${PWD}"/crypto-config/organizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
+peer chaincode invoke -o 127.0.0.1:7050 -C mychannel -n mycc -c '{"Args":["InitLedger"]}' --tls --cafile "${PWD}"/crypto-config/organizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
 
 # Crear un activo
 peer chaincode invoke -o 127.0.0.1:7050 -C mychannel -n mycc -c '{"Args":["CreateAsset","1","blue","35","tom","1000"]}' --tls --cafile "${PWD}"/crypto-config/organizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
