@@ -60,7 +60,7 @@ cd test-network-optativo-nanobash
 source peer1admin.sh
 ```
 
-## Instrucciones levantar una red con 2 Organizaciones (org1 y org2)
+## Instrucciones para levantar una red con 2 Organizaciones (org1 y org2)
 
 ```bash
 # clonamos el repositorio
