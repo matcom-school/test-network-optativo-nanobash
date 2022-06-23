@@ -38,26 +38,7 @@ Los scripts de administración de nodos-pares se ejecutan con el comando `source
 El script `peer1admin.sh` establece las variables de entorno de administración del peer1, también crea el canal de la aplicación `mychannel`, actualiza la configuración del canal para el anchor-peer de org1 y une el peer1 al canal `mychannel`.
 El scripts de administración de el nodo-par restante une el otro nodo-par al canal `mychannel`.
 
-# Instrucciones para instalar y ejecutar el chaincode "chaincode-go" de ejemplo
-
-## Requisitos previos
-Antes debe tener las imagenes docker de fabric-ccenv y fabric-baseos:
-
-### Pull ccenv
-
-```bash
-$ docker pull hyperledger/fabric-ccenv:2.2.5
-$ docker tag hyperledger/fabric-ccenv:2.2.5 hyperledger/fabric-ccenv:2.2
-```
-
-### Pull baseos
-
-```bash
-$ docker pull hyperledger/fabric-baseos:2.2.5
-$ docker tag hyperledger/fabric-baseos:2.2.5 hyperledger/fabric-baseos:2.2
-```
-
-### Instrucciones de ejemplo para levantar una red con una unica Organización (org1)
+## Instrucciones de ejemplo para levantar una red con una unica Organización (org1)
 
 ```bash
 # clonamos el repositorio
@@ -77,6 +58,53 @@ cd test-network-optativo-nanobash
 
 # abrimos otra terminal e unimos el peer1 al canal y cargamos las variables de entorno  (si deseas tener 2 Organizaciones, entonces debes ejecutar tambien el source peer2admin.sh)
 source peer1admin.sh
+```
+
+## Instrucciones de ejemplo para levantar una red con 2 Organizaciones (org1 y org2)
+
+```bash
+# clonamos el repositorio
+git clone https://github.com/ic-matcom/test-network-optativo-nanobash.git
+
+# entramos al directorio raiz
+cd test-network-optativo-nanobash
+
+# generamos bloque génesis (este script solo debe ejecutarse 1 vez, o cuando desee regresar al estado inicial de la red)
+./generate_artifacts.sh
+
+# iniciamos el nodo-ordenador
+./orderer1.sh
+
+# abrimos una 2da terminal e iniciamos el nodo-par 1
+./peer1.sh
+
+# abrimos una 3ra terminal e iniciamos el nodo-par 2
+./peer2.sh
+
+# abrimos una 4ta terminal y unimos el nodo-par 1 al canal y cargamos las variables de entorno
+source peer1admin.sh
+
+# Luego en esa misma terminal unimos el nodo-par 2 al canal
+source peer2admin.sh
+```
+
+# Instrucciones para instalar y ejecutar el chaincode "chaincode-go" de ejemplo
+
+## Requisitos previos
+Antes debe tener las imagenes docker de fabric-ccenv y fabric-baseos:
+
+### Pull ccenv
+
+```bash
+$ docker pull hyperledger/fabric-ccenv:2.2.5
+$ docker tag hyperledger/fabric-ccenv:2.2.5 hyperledger/fabric-ccenv:2.2
+```
+
+### Pull baseos
+
+```bash
+$ docker pull hyperledger/fabric-baseos:2.2.5
+$ docker tag hyperledger/fabric-baseos:2.2.5 hyperledger/fabric-baseos:2.2
 ```
 
 ## Descargando dependencias del chaincode
