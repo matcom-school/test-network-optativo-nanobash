@@ -72,10 +72,10 @@ cd test-network-optativo-nanobash
 # iniciamos el nodo-ordenador
 ./orderer1.sh
 
-# abrimos otra terminal e iniciamos el nodo-peer1 (si deseas tener 2 Organizaciones, entonces debes levantar tambien el ./peer2.sh)
+# abrimos otra terminal e iniciamos el nodo-peer1 (si deseas tener 2 Organizaciones, entonces debes ejecutar en otra terminal el ./peer2.sh)
 ./peer1.sh
 
-# abrimos otra terminal e unimos el peer1 al canal y cargamos las variables de entorno
+# abrimos otra terminal e unimos el peer1 al canal y cargamos las variables de entorno  (si deseas tener 2 Organizaciones, entonces debes ejecutar tambien el source peer2admin.sh)
 source peer1admin.sh
 ```
 
