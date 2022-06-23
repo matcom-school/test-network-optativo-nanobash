@@ -15,7 +15,7 @@ Los scripts brindan una configuración mínima para una red Fabric y, al mismo t
 # Requisitos previos
 
 - Siga la documentación de Fabric para los [Requisitos previos] (https://hyperledger-fabric.readthedocs.io/en/release-2.2/prereqs.html)
-- Siga la documentación de Fabric para [descargar el fabric-samples y los binarios de Fabric] (https://hyperledger-fabric.readthedocs.io/en/release-2.2/install.html). Puede omitir las descargas de imágenes de Docker usando `curl -sSL https://bit.ly/2ysbOFE | bash -s -- -d`
+- Siga la documentación de Fabric para [descargar el fabric-samples y los binarios de Fabric] (https://hyperledger-fabric.readthedocs.io/en/release-2.2/install.html). Puede omitir las descargas de imágenes de Docker usando `curl -sSL https://bit.ly/2ysbOFE  | bash -s 2.2.0`
 
 # Instrucciones para iniciar la red
 
