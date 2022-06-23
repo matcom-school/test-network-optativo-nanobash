@@ -9,7 +9,7 @@ Se utilizan los binarios de Fabric en lugar de usar contenedores Docker. Y el ch
 
 Los scripts brindan una configuración mínima para una red Fabric y, al mismo tiempo, ofrecen una red habilitada para TLS de múltiples nodos:
 - 1 nodo-ordenador
-- Configuración mínima para un canal con (1 nodo-ordenador) y 2 organizaciones (con 1 nodo-par cada una)
+- Configuración mínima para un canal con (1 nodo-ordenador) y 2 organizaciones (con 1 nodo-par por organización)
 - Política de respaldo mínimo para permitir que 1 organización respalde (aprobar y confirmar) un chaincode
 
 # Requisitos previos
@@ -26,21 +26,21 @@ Puede comenzar con una única organización y la administración de su nodo-par.
 Las siguientes instrucciones le permiten ejecutar scripts bash que establecen variables de entorno para un componente y luego ejecuta el componente.
 Los scripts contienen solo comandos simples para que sean fáciles de comprender.
 
-- cd al directorio `test-network-optativo-nanobash` en cada ventana de terminal
-- En el terminal del nodo-ordenador, ejecute `./generate_artifacts.sh` para generar transacciones de configuración y bloques de génesis del canal y del sistema (llamadas a configtxgen). Los artefactos se crearán en los directorios `crypto-config` y `channel-artifacts`.
+- Entre (comando `cd`) al directorio `test-network-optativo-nanobash` en cada ventana de terminal
+- En el terminal del nodo-ordenador, ejecute `./generate_artifacts.sh` para generar transacciones de configuración y bloque génesis del canal y del sistema (llamadas a configtxgen). Los artefactos se crearán en los directorios `crypto-config` y `channel-artifacts`.
 - Luego en esa misma terminal, ejecute `./orderer1.sh`
-- En las dos terminales para nodos-pares, ejecute `./peer1.sh`, `./peer2.sh` respectivamente
+- En las dos terminales para nodos-pares, ejecute `./peer1.sh`, `./peer2.sh` respectivamente. (ojo: si desea tener una unica organización activa, solo debe ejecutar `./peer1.sh`)
 - Tenga en cuenta que el nodo-ordenador y los nodo-pares escriben sus datos (incluidos sus ledger) en su propio subdirectorio en el directorio "datos".
-- En las terminales para administración de nodos-pares, ejecute `source peer1admin.sh`, `source peer2admin.sh` respectivamente
+- En las terminales para administración de nodos-pares, ejecute `source peer1admin.sh`, `source peer2admin.sh` respectivamente. (ojo: si desea tener una unica organización activa, solo debe ejecutar `source peer1admin.sh`)
 
 Los scripts de administración de nodos-pares se ejecutan con el comando `source` para cargar las variables de entorno en los respectivos shells. Esto es importante para que las variables de entorno exportadas puedan ser utilizadas por cualquier comando posterior.
 
-El script `peer1admin.sh` establece las variables de entorno de administración de peer1, crea el canal de la aplicación `mychannel`, actualiza la configuración del canal para el anchor-peer de org1 y une el peer1 al canal `mychannel`.
+El script `peer1admin.sh` establece las variables de entorno de administración del peer1, también crea el canal de la aplicación `mychannel`, actualiza la configuración del canal para el anchor-peer de org1 y une el peer1 al canal `mychannel`.
 El scripts de administración de el nodo-par restante une el otro nodo-par al canal `mychannel`.
 
-# Instrucciones para implementar y ejecutar el chaincode "chaincode-go" de ejemplo
+# Instrucciones para instalar y ejecutar el chaincode "chaincode-go" de ejemplo
 
-## requisitos previos
+## Requisitos previos
 Antes debe tener las imagenes docker de fabric-ccenv y fabric-baseos:
 
 ### Pull ccenv
@@ -55,6 +55,28 @@ $ docker tag hyperledger/fabric-ccenv:2.2.5 hyperledger/fabric-ccenv:2.2
 ```bash
 $ docker pull hyperledger/fabric-baseos:2.2.5
 $ docker tag hyperledger/fabric-baseos:2.2.5 hyperledger/fabric-baseos:2.2
+```
+
+### Instrucciones de ejemplo para levantar una red con una unica Organización (org1)
+
+```bash
+# clonamos el repositorio
+git clone https://github.com/ic-matcom/test-network-optativo-nanobash.git
+
+# entramos al directorio raiz
+cd test-network-optativo-nanobash
+
+# generamos bloque génesis (este script solo debe ejecutarse 1 vez, o cuando desee regresar al estado inicial de la red)
+./generate_artifacts.sh
+
+# iniciamos el nodo-ordenador
+./orderer1.sh
+
+# abrimos otra terminal e iniciamos el nodo-peer1 (si deseas tener 2 Organizaciones, entonces debes levantar tambien el ./peer2.sh)
+./peer1.sh
+
+# abrimos otra terminal e unimos el peer1 al canal y cargamos las variables de entorno
+source peer1admin.sh
 ```
 
 ## Descargando dependencias del chaincode
