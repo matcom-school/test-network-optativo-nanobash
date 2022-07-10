@@ -328,7 +328,7 @@ func getQueryResultForQueryString(ctx contractapi.TransactionContextInterface, q
 }
 
 func (t *SmartContract) QueryAssetsByOwner(ctx contractapi.TransactionContextInterface, owner string) ([]*File, error) {
-	queryString := fmt.Sprintf(`{"selector":{"docType":"asset","owner":"%s"}}`, owner)
+	queryString := fmt.Sprintf(`{"selector":{"AssetType":"File","owner":"%s"}}`, owner)
 	return getQueryResultForQueryString(ctx, queryString)
 }
 
