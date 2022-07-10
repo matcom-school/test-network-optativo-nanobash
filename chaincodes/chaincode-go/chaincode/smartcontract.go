@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"github.com/hyperledger/fabric-chaincode-go/shim"
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
-	"github.com/hyperledger/fabric-samples/asset-transfer-basic/chaincode-go/vendor/github.com/hyperledger/fabric-chaincode-go/shim"
 )
 
 // SmartContract provides functions for managing an Asset
