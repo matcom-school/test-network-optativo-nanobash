@@ -32,3 +32,6 @@ update:
 
 help:
 	echo "> make build\n> make install\n> export CHAINCODE_ID=mycc:id\n> make accept-cc\n> make deploys\n> make ledger"
+
+run-app:
+	cd application-go && go mod vendor && go run . && cd ..
