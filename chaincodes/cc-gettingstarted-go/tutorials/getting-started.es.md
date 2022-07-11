@@ -12,10 +12,10 @@
 ## Requisitos previos
 Este tutorial asume que tienes:
 - [Go 1.17.x](https://golang.org/doc/install)
-- Un clon de [fabric-testnet-nano-devmode](https://github.com/kmilodenisglez/fabric-testnet-nano-devmode)
+- Un clon de [test-network-optativo-nanobash](https://github.com/ic-matcom/test-network-optativo-nanobash)
 
 ## Gestión interna
-Dado que este tutorial hará uso de la configuración ' `fabric-testnet-nano-devmode`, debe desarrollar dentro de `fabric-testnet-nano-devmode/chaincodes`. Cree una carpeta dentro de `fabric-testnet-nano-devmode/chaincodes` llamada `cc-gettingstarted-go` y abra ahí su editor preferido.
+Dado que este tutorial hará uso de la configuración ' `test-network-optativo-nanobash`, debe desarrollar dentro de `test-network-optativo-nanobash/chaincodes`. Cree una carpeta dentro de `test-network-optativo-nanobash/chaincodes` llamada `cc-gettingstarted-go` y abra ahí su editor preferido.
 
 Ejecuta en su terminal el comando
 
