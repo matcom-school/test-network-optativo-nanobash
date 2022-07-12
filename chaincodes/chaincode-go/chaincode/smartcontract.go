@@ -17,7 +17,7 @@ type SmartContract struct {
 //Insert struct field in alphabetic order => to achieve determinism accross languages
 // golang keeps the order when marshal to json but doesn't order automatically
 type File struct {
-	AssetType string   `json:"assetType`
+	AssetType string   `json:"assetType"`
 	CreatedAt string   `json:"createdAt"`
 	Customers []string `json:"customers"`
 	ID        string   `json:"id"`
@@ -231,13 +231,13 @@ func (s *SmartContract) CreateFile(ctx contractapi.TransactionContextInterface,
 		return fmt.Errorf("the asset %s already exists", id)
 	}
 
-	exists, err = s.UserExists(ctx, id)
+	exists, err = s.UserExists(ctx, owner)
 	if err != nil {
 		return err
 	}
 
 	if !exists {
-		return fmt.Errorf("the user %s doesn't exist", exists)
+		return fmt.Errorf("the user %s doesn't exist", owner)
 	}
 
 	asset := File{
