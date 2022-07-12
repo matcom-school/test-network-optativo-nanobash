@@ -3,7 +3,9 @@ package chaincode
 import (
 	"encoding/json"
 	"fmt"
+	"time"
 
+	"github.com/golang/protobuf/ptypes"
 	"github.com/hyperledger/fabric-chaincode-go/shim"
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 )
@@ -35,6 +37,12 @@ type User struct {
 	Name      string `json:"name"`
 	AssetType string `json:"assetType"`
 	State     string `json:"state"`
+}
+
+type FileHistory struct {
+	Record    *File     `json:"record"`
+	TxId      string    `json:"txId"`
+	Timestamp time.Time `json:"timestamp"`
 }
 
 // InitLedger adds a base set of assets to the ledger
@@ -422,7 +430,7 @@ func (t *SmartContract) GetAllFilesByOwner(ctx contractapi.TransactionContextInt
 	return buildFilesListByQueryResponse(resultsIterator)
 }
 
-func (s *SmartContract) FilesHistory(ctx contractapi.TransactionContextInterface, id string) ([]*File, error) {
+func (s *SmartContract) FilesHistory(ctx contractapi.TransactionContextInterface, id string) ([]FileHistory, error) {
 	exists, err := s.FileExists(ctx, id)
 
 	if err != nil {
@@ -436,7 +444,7 @@ func (s *SmartContract) FilesHistory(ctx contractapi.TransactionContextInterface
 	resultHistory, err := ctx.GetStub().GetHistoryForKey(id)
 	defer resultHistory.Close()
 
-	var assets []*File
+	var history []FileHistory
 
 	for resultHistory.HasNext() {
 		queryResponse, err := resultHistory.Next()
@@ -449,9 +457,20 @@ func (s *SmartContract) FilesHistory(ctx contractapi.TransactionContextInterface
 			return nil, err
 		}
 
-		assets = append(assets, &asset)
+		timestamp, err := ptypes.Timestamp(queryResponse.Timestamp)
+		if err != nil {
+			return nil, err
+		}
+
+		assetHist := FileHistory{
+			TxId:      queryResponse.TxId,
+			Timestamp: timestamp,
+			Record:    &asset,
+		}
+
+		history = append(history, assetHist)
 
 	}
 
-	return assets, nil
+	return history, nil
 }
