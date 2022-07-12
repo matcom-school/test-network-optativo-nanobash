@@ -51,7 +51,7 @@ func (s *SmartContract) InitLedger(ctx contractapi.TransactionContextInterface) 
 		{
 			Size: 5, Owner: "tomoko@gmail.com", ID: "mockAssect1",
 			CreatedAt: "2022-03-10", Customers: make([]string, 0),
-			Type: "mp3", Name: "Im not", Url: "http//:localhost:9000", AssetType: "File"},
+			Type: "mp3", Name: "Im not", Url: "http//:localhost:9000", AssetType: "File", State: "created"},
 	}
 
 	for _, asset := range files {
