@@ -221,7 +221,7 @@ func (s *SmartContract) DeleteUser(ctx contractapi.TransactionContextInterface, 
 //////////////////////////// FilesMethods ///////////////////////////////////////////////////////
 
 func (s *SmartContract) CreateFile(ctx contractapi.TransactionContextInterface,
-	id string, url string, name, string, createdAt string, size int, owner string, type_ string) error {
+	id string, url string, name string, createdAt string, size int, owner string, type_ string) error {
 
 	exists, err := s.FileExists(ctx, id)
 	if err != nil {
@@ -229,6 +229,15 @@ func (s *SmartContract) CreateFile(ctx contractapi.TransactionContextInterface,
 	}
 	if exists {
 		return fmt.Errorf("the asset %s already exists", id)
+	}
+
+	exists, err = s.UserExists(ctx, id)
+	if err != nil {
+		return err
+	}
+
+	if !exists {
+		return fmt.Errorf("the user %s doesn't exist", exists)
 	}
 
 	asset := File{
@@ -243,6 +252,7 @@ func (s *SmartContract) CreateFile(ctx contractapi.TransactionContextInterface,
 		AssetType: "File",
 		State:     "created",
 	}
+
 	assetJSON, err := json.Marshal(asset)
 	if err != nil {
 		return err
@@ -425,5 +435,23 @@ func (s *SmartContract) FilesHistory(ctx contractapi.TransactionContextInterface
 
 	resultHistory, err := ctx.GetStub().GetHistoryForKey(id)
 	defer resultHistory.Close()
-	return buildFilesListByQueryResponse(resultHistory)
+
+	var assets []*File
+
+	for resultHistory.HasNext() {
+		queryResponse, err := resultHistory.Next()
+		if err != nil {
+			return nil, err
+		}
+		var asset File
+		err = json.Unmarshal(queryResponse.Value, &asset)
+		if err != nil {
+			return nil, err
+		}
+
+		assets = append(assets, &asset)
+
+	}
+
+	return assets, nil
 }
