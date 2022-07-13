@@ -19,16 +19,15 @@ type SmartContract struct {
 //Insert struct field in alphabetic order => to achieve determinism accross languages
 // golang keeps the order when marshal to json but doesn't order automatically
 type File struct {
-	AssetType string   `json:"assetType"`
-	CreatedAt string   `json:"createdAt"`
-	Customers []string `json:"customers"`
-	ID        string   `json:"id"`
-	Name      string   `json:"name"`
-	Owner     string   `json:"owner"`
-	Size      int      `json:"size"`
-	State     string   `json:"state"`
-	Type      string   `json:"type"`
-	Url       string   `json:"url"`
+	AssetType string `json:"assetType"`
+	CreatedAt string `json:"createdAt"`
+	ID        string `json:"id"`
+	Name      string `json:"name"`
+	Owner     string `json:"owner"`
+	Size      int    `json:"size"`
+	State     string `json:"state"`
+	Type      string `json:"type"`
+	Url       string `json:"url"`
 }
 
 type User struct {
@@ -50,8 +49,8 @@ func (s *SmartContract) InitLedger(ctx contractapi.TransactionContextInterface) 
 	files := []File{
 		{
 			Size: 5, Owner: "tomoko@gmail.com", ID: "mockAssect1",
-			CreatedAt: "2022-03-10", Customers: make([]string, 0),
-			Type: "mp3", Name: "Im not", Url: "http//:localhost:9000", AssetType: "File", State: "created"},
+			CreatedAt: "2022-03-10",
+			Type:      "mp3", Name: "Im not", Url: "http//:localhost:9000", AssetType: "File", State: "created"},
 	}
 
 	for _, asset := range files {
@@ -100,7 +99,7 @@ func (s *SmartContract) InitLedger(ctx contractapi.TransactionContextInterface) 
 
 // CreateAsset issues a new asset to the world state with given details.
 func (s *SmartContract) CreateUser(ctx contractapi.TransactionContextInterface,
-	id string, name, string, createdAt string) error {
+	id string, name string, createdAt string) error {
 
 	exists, err := s.UserExists(ctx, id)
 	if err != nil {
@@ -253,7 +252,6 @@ func (s *SmartContract) CreateFile(ctx contractapi.TransactionContextInterface,
 		ID:        id,
 		Name:      name,
 		Owner:     owner,
-		Customers: nil,
 		Url:       url,
 		Size:      size,
 		Type:      type_,
@@ -359,13 +357,13 @@ func (s *SmartContract) TransferFile(ctx contractapi.TransactionContextInterface
 		return "", err
 	}
 
-	exists, err := s.UserExists(ctx, id)
+	exists, err := s.UserExists(ctx, userId)
 	if err != nil {
-		return "", fmt.Errorf("the user %s doesn't exist", userId)
+		return "", err
 	}
 
 	if !exists {
-		return "", err
+		return "", fmt.Errorf("the user %s doesn't exist", userId)
 	}
 
 	oldOwner := file.Owner
