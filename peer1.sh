@@ -1,13 +1,10 @@
 #!/usr/bin/env sh
 set -eu
 
-if uname -r | grep -iq "wsl"
-then
-	CCADDR="host.docker.internal"
-else
-  CCADDR="127.0.0.1"
-fi
 
+CCADDR="host.docker.internal"
+
+echo ${CCADDR}
 # look for binaries in local dev environment /build/bin directory and then in local samples /bin directory
 export PATH="${PWD}"/../../fabric/build/bin:"${PWD}"/../bin:"$PATH"
 export FABRIC_CFG_PATH="${PWD}"/../config
@@ -34,18 +31,18 @@ export CORE_METRICS_PROVIDER=prometheus
 export CORE_OPERATIONS_LISTENADDRESS=127.0.0.1:8446
 
 # uncomment the lines below to utilize couchdb state database, when done with the environment you can stop the couchdb container with "docker rm -f couchdb1"
-# export CORE_LEDGER_STATE_STATEDATABASE=CouchDB
-# export CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=127.0.0.1:5984
-# export CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=portainer
-# export CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=N@rut0
-## remove the container only if it exists
-# CONTAINER_NAME=$(docker ps -aqf "NAME=worldstate_org1")
-# if [ -z "$CONTAINER_NAME" -o "$CONTAINER_NAME" == " " ]; then
-#	 echo "---- No world-state container available for deletion ----"
-# else
-#  	 docker rm -f $CONTAINER_NAME
-# fi
-# docker run --publish 5984:5984 --detach -e COUCHDB_USER=portainer -e COUCHDB_PASSWORD=N@rut0 --name worldstate_org1 couchdb:3.1.1
+export CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+export CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=127.0.0.1:5984
+export CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=portainer
+export CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=N@rut0
+# remove the container only if it exists
+CONTAINER_NAME=$(docker ps -aqf "NAME=worldstate_org1")
+if [ -z "$CONTAINER_NAME" -o "$CONTAINER_NAME" == " " ]; then
+	 echo "---- No world-state container available for deletion ----"
+else
+ 	 docker rm -f $CONTAINER_NAME
+fi
+docker run --publish 5984:5984 --detach -e COUCHDB_USER=portainer -e COUCHDB_PASSWORD=N@rut0 --name worldstate_org1 couchdb:3.1.1
 
 # start peer
 peer node start
